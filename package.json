@@ -1,0 +1,38 @@
+{
+  "name": "koa-auth-backend",
+  "version": "1.0.0",
+  "type": "module",
+  "engines": {
+    "node": "20.x"
+  },
+  "scripts": {
+    "dev": "node --import tsx/esm --watch api/index.ts",
+    "build": "node_modules/.bin/tsc",
+    "start": "node dist/api/index.js",
+    "migrate": "node --import tsx/esm migrate.ts",
+    "migrate:rollback": "node --import tsx/esm migrate.ts rollback"
+  },
+  "dependencies": {
+    "@hapi/boom": "^10.0.1",
+    "@koa/router": "^13.1.0",
+    "@types/hapi__boom": "^9.0.1",
+    "bcryptjs": "^2.4.3",
+    "dotenv": "^16.4.5",
+    "joi": "^17.13.3",
+    "jsonwebtoken": "^9.0.2",
+    "knex": "^3.1.0",
+    "koa": "^2.15.3",
+    "koa-bodyparser": "^4.4.1",
+    "pg": "^8.13.1"
+  },
+  "devDependencies": {
+    "@types/bcryptjs": "^2.4.6",
+    "@types/jsonwebtoken": "^9.0.7",
+    "@types/koa": "^2.15.0",
+    "@types/koa__router": "^12.0.4",
+    "@types/koa-bodyparser": "^4.3.12",
+    "@types/node": "^22.10.1",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.2"
+  }
+}
