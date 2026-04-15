@@ -12,21 +12,16 @@ export const validateObject = (body: any, schemaMap: Joi.SchemaMap): any =>
 
 
 
-
 export const validate = (body: any, schema: AnySchema): any => 
     {
-
         if (typeof body === 'string') 
         {
             body = JSON.parse(body);
         }
-    
     const { value, error } = schema.validate(body);
-
     if (error) 
     {
         throw error;
     }
-
     return value;
 };
