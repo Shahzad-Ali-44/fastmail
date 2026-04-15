@@ -2,7 +2,6 @@ import 'dotenv/config';
 import Koa from 'koa';
 import bodyParser from 'koa-bodyparser';
 import { errorMiddleware } from './middlewares/error.js';
-import { offsetLimitMiddleware } from './middlewares/offset-limit.js';
 import { responseMiddleware } from './middlewares/response.js';
 import { allowedMethods, routes } from './routes/index.js';
 
@@ -10,7 +9,6 @@ const app = new Koa();
 
 app.use(errorMiddleware);
 app.use(bodyParser());
-app.use(offsetLimitMiddleware);
 app.use(routes);
 app.use(allowedMethods);
 app.use(responseMiddleware);

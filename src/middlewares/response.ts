@@ -4,6 +4,7 @@ import type { ISMiddleware } from '../interfaces/koa.js';
 import type { IResponse } from '../interfaces/response.js';
 
 export const responseMiddleware: ISMiddleware = async (ctx, next) => {
+
     if (ctx.state.data === undefined) {
         throw Boom.notFound('Api Not Found');
     }
@@ -11,9 +12,8 @@ export const responseMiddleware: ISMiddleware = async (ctx, next) => {
     const body: IResponse = {
         metaData: {
             status: ctx.status,
-            message: ctx.state.message || 'success',
+            message: ctx.state.message,
             key: Key.none,
-            totalCount: ctx.state.totalCount,
         },
     };
 

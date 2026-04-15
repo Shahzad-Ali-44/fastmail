@@ -7,17 +7,27 @@ import type { IMetaData } from '../interfaces/meta-data.js';
 const IS_PRODUCTION = process.env.NODE_ENV === 'production';
 
 export const errorMiddleware: Middleware = async (ctx, next) => {
-    try {
+    try 
+    {
         ctx.status = 200;
         await next();
-    } catch (err: any) {
+    }
+
+    catch (err: any) 
+    {
         let metaData: IMetaData;
 
-        if (err.isJoi) {
+        if (err.isJoi) 
+            {
             metaData = handleJoiError(err as Joi.ValidationError);
-        } else if (err.isBoom) {
+         } 
+
+        else if (err.isBoom) 
+            {
             metaData = handleBoomError(err as Boom);
-        } else {
+        } 
+        else 
+        {
             metaData = handleDefaultError(err);
         }
 
@@ -28,13 +38,14 @@ export const errorMiddleware: Middleware = async (ctx, next) => {
         ctx.status = +metaData.status;
         ctx.body = { metaData };
 
-        if (ctx.status === 500) {
+        if (ctx.status === 500) 
+            {
             ctx.app.emit('error', err, ctx);
         }
     }
 };
 
-const handleJoiError = (err: Joi.ValidationError): IMetaData => {
+const handleJoiError = (err: Joi.ValidationError): IMetaData =>  {
     return {
         status: 400,
         message: err.details[0].message,

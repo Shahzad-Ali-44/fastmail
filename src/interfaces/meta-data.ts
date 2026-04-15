@@ -3,5 +3,4 @@ export interface IMetaData {
     message: string;
     key: string;
     stack?: string;
-    totalCount?: number;
 }

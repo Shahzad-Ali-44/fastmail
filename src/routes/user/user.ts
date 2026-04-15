@@ -3,9 +3,7 @@ import * as UserController from '../../controllers/user.js';
 import { authorizeUser } from '../../middlewares/auth.js';
 import { authAllowedMethods, authRoutes } from './auth.js';
 
-const router = new Router({
-    prefix: '/user',
-});
+const router = new Router({ prefix: '/user' });
 
 router.use(authRoutes);
 router.use(authAllowedMethods);

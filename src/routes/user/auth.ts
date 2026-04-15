@@ -2,9 +2,7 @@ import Router from '@koa/router';
 import * as UserController from '../../controllers/user.js';
 import * as UserValidator from '../../validators/user.js';
 
-const router = new Router({
-    prefix: '/auth',
-});
+const router = new Router({ prefix: '/auth' });
 
 router.post('/register',
     UserValidator.register,
