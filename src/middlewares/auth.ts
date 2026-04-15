@@ -17,6 +17,8 @@ export const authorizeUser = (): ISMiddleware => {
                 authorization: Joi.string().max(1000),
             },
 
+            { allowUnknown: true },
+
         ).authorization as string | undefined;
 
 

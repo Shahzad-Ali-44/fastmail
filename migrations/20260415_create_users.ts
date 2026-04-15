@@ -9,7 +9,8 @@ export const up = async (knex: Knex): Promise<void> => {
         table.string('password', 255).notNullable();
         table.string('token', 100).notNullable().unique();
         table.boolean('isActive').notNullable().defaultTo(true);
-        table.timestamps(true, true);
+        table.timestamp('createdAt').notNullable().defaultTo(knex.fn.now());
+        table.timestamp('updatedAt').notNullable().defaultTo(knex.fn.now());
     });
 };
 

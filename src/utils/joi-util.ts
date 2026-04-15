@@ -15,15 +15,15 @@ export const validateArray = ( body: any, item: SchemaLike, options: ValidationO
 
 
 
-export const validateObject = (body: any,  schemaMap: Joi.SchemaMap,): any => 
+export const validateObject = (body: any, schemaMap: Joi.SchemaMap, options: ValidationOptions = {}): any => 
     {
-    return validate(body, Joi.object().keys(schemaMap));
+    return validate(body, Joi.object().keys(schemaMap), options);
 };
 
 
 
 
-export const validate = (body: any, schema: AnySchema): any => 
+export const validate = (body: any, schema: AnySchema, options: ValidationOptions = {}): any => 
     {
 
         if (typeof body === 'string') 
@@ -31,7 +31,7 @@ export const validate = (body: any, schema: AnySchema): any =>
             body = JSON.parse(body);
         }
     
-    const { value, error } = schema.validate(body);
+    const { value, error } = schema.validate(body, options);
 
     if (error) 
     {
