@@ -1,27 +1,13 @@
-import Joi from 'joi';
 import { Key } from '../enums/key.js';
 import type { ISMiddleware } from '../interfaces/koa.js';
 import * as UserService from '../services/user.js';
 import { unauthorizedWithKey } from '../utils/boom-util.js';
-import { validateObject } from '../utils/joi-util.js';
 
 export const authorizeUser = (): ISMiddleware => {
 
     return async (ctx, next) => {
 
-        const authorizationWithBearer = validateObject(
-
-            { ...ctx.request.headers, ...ctx.request.query },
-
-            {
-                authorization: Joi.string().max(1000),
-            },
-
-            { allowUnknown: true },
-
-        ).authorization as string | undefined;
-
-
+        const authorizationWithBearer = ctx.request.headers['authorization'] as string | undefined;
 
         if (!authorizationWithBearer) 
             {
