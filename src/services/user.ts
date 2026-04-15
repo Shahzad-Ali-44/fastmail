@@ -5,11 +5,17 @@ import type { IUserModel } from '../models/interfaces/user-model.js';
 import * as JwtUtils from '../utils/jwt-utils.js';
 import type { IRegisterBody, ILoginBody } from '../interfaces/user.js';
 
+
+
 const userModel = new UserModel();
+
+
 
 const generateToken = (): string => {
     return Math.random().toString(36).slice(2) + Date.now().toString(36);
 };
+
+
 
 export const register = async (body: IRegisterBody): Promise<{ user: Partial<IUserModel>; authorization: string }> => {
     const existing = await userModel.getByEmail(body.email);
@@ -40,6 +46,9 @@ export const register = async (body: IRegisterBody): Promise<{ user: Partial<IUs
 
 };
 
+
+
+
 export const login = async (body: ILoginBody): Promise<{ user: Partial<IUserModel>; authorization: string }> => {
 
     const user = await userModel.getByEmail(body.email);
@@ -67,14 +76,24 @@ export const login = async (body: ILoginBody): Promise<{ user: Partial<IUserMode
     };
 };
 
+
+
+
 export const getUserByToken = async (token: string): Promise<IUserModel | undefined> => {
+
     try {
+
         const payload = JwtUtils.verifyToken(token);
-        if (!payload.token) {
+
+        if (!payload.token) 
+            {
             return undefined;
         }
+
         return await userModel.getByToken(payload.token);
-    } catch {
+
+    } catch 
+    {
         return undefined;
     }
 };
