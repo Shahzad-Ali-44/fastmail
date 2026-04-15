@@ -5,7 +5,6 @@ export interface IState {
     status: number;
     data: any | null;
     body?: any;
-    responseContentType?: any;
     authorization: string;
     siUser: IUserModel;
     [key: string]: any;

@@ -20,14 +20,9 @@ export const responseMiddleware: ISMiddleware = async (ctx, next) => {
     if (ctx.state.data !== null) {
         body.data = ctx.state.data;
     }
-
-    if (ctx.state.responseContentType) {
-        ctx.body = ctx.state.data;
-        ctx.set('Content-Type', ctx.state.responseContentType);
-    } else {
-        ctx.body = body;
-    }
-
+        
+    
+    ctx.body = body;
     ctx.status = body.metaData.status;
     await next();
 };
