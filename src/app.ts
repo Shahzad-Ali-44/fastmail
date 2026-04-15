@@ -9,6 +9,13 @@ const app = new Koa();
 
 app.use(errorMiddleware);
 app.use(bodyParser());
+app.use(async (ctx, next) => {
+    if (ctx.path === '/') {
+        ctx.body = { message: 'Koa JS API server is running' };
+        return;
+    }
+    await next();
+});
 app.use(routes);
 app.use(allowedMethods);
 app.use(responseMiddleware);
