@@ -15,4 +15,3 @@ router.post('/login',
 );
 
 export const authRoutes = router.routes();
-export const authAllowedMethods = router.allowedMethods();

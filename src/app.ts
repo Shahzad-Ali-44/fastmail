@@ -3,7 +3,7 @@ import Koa from 'koa';
 import bodyParser from 'koa-bodyparser';
 import { errorMiddleware } from './middlewares/error.js';
 import { responseMiddleware } from './middlewares/response.js';
-import { allowedMethods, routes } from './routes/index.js';
+import { routes } from './routes/index.js';
 
 const app = new Koa();
 
@@ -17,7 +17,6 @@ app.use(async (ctx, next) => {
     await next();
 });
 app.use(routes);
-app.use(allowedMethods);
 app.use(responseMiddleware);
 
 app.on('error', (err: Error) => {
