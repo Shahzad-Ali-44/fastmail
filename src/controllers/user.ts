@@ -15,7 +15,7 @@ export const register: ISMiddleware = async (ctx, next) =>
 
 export const login: ISMiddleware = async (ctx, next) => 
     {
-    ctx.state.data = await UserService.login(ctx.state.body);
+    ctx.state.data = await UserService.login(ctx.state.siUser);
     ctx.state.message = 'Login successful';
     await next();
 };

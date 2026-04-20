@@ -1,9 +1,9 @@
-import Boom from '@hapi/boom';
 import bcrypt from 'bcryptjs';
 import { UserModel } from '../models/classes/user-model.js';
 import type { IUserModel } from '../models/interfaces/user-model.js';
 import * as JwtUtils from '../utils/jwt-utils.js';
-import type { IRegisterBody, ILoginBody } from '../interfaces/user.js';
+import type { IRegisterBody } from '../interfaces/user.js';
+import * as TempEmailService from './temp-email.js';
 
 
 
@@ -17,12 +17,7 @@ const generateToken = (): string => {
 
 
 
-export const register = async (body: IRegisterBody): Promise<{ user: Partial<IUserModel>; authorization: string }> => {
-    const existing = await userModel.getByEmail(body.email);
-    if (existing) {
-        throw Boom.conflict('Email is already registered');
-    }
-
+export const register = async (body: IRegisterBody): Promise<{ user: Partial<IUserModel>; authorization: string; tempEmail: { address: string } }> => {
     const hashedPassword = await bcrypt.hash(body.password, 10);
     const token = generateToken();
 
@@ -38,10 +33,12 @@ export const register = async (body: IRegisterBody): Promise<{ user: Partial<IUs
     const authorization = JwtUtils.signToken({ userId, token });
 
     const user = await userModel.getByToken(token);
+    const tempEmail = await TempEmailService.getCurrentTempEmailForUser(userId);
 
     return {
         user: user as IUserModel,
         authorization,
+        tempEmail,
     };
 
 };
@@ -49,30 +46,16 @@ export const register = async (body: IRegisterBody): Promise<{ user: Partial<IUs
 
 
 
-export const login = async (body: ILoginBody): Promise<{ user: Partial<IUserModel>; authorization: string }> => {
-
-    const user = await userModel.getByEmail(body.email);
-
-    if (!user) {
-        throw Boom.unauthorized('Invalid email or password');
-    }
-
-    if (!user.isActive) {
-        throw Boom.forbidden('Your account has been disabled');
-    }
-
-    const isPasswordValid = await bcrypt.compare(body.password, user.password);
-    if (!isPasswordValid) {
-        throw Boom.unauthorized('Invalid password');
-    }
-
+export const login = async (user: IUserModel): Promise<{ user: Partial<IUserModel>; authorization: string; tempEmail: { address: string } }> => {
     const authorization = JwtUtils.signToken({ userId: user.id, token: user.token });
 
     const { password, ...registeredUser } = user as IUserModel;
+    const tempEmail = await TempEmailService.getCurrentTempEmailForUser(user.id);
 
     return {
         user: registeredUser,
         authorization,
+        tempEmail,
     };
 };
 
