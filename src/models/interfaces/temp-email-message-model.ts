@@ -1,7 +1,7 @@
 import type { IBaseModel } from './model.js';
 
 export interface ITempEmailMessageModel extends IBaseModel {
-    tempEmailId: number;
+    sessionId: number;
     fromAddress: string | null;
     subject: string | null;
     textBody: string | null;

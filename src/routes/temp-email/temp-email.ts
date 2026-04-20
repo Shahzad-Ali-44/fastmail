@@ -1,23 +1,27 @@
 import Router from '@koa/router';
 import { koaBody } from 'koa-body';
-import { authorizeUser } from '../../middlewares/auth.js';
+import { validateSession } from '../../middlewares/session.js';
 import * as TempEmailController from '../../controllers/temp-email.js';
 import * as TempEmailValidator from '../../validators/temp-email.js';
 
 const router = new Router({ prefix: '/temp-email' });
 
-router.get('/',
-    authorizeUser(),
-    TempEmailController.getCurrentTempEmail,
+router.post('/session',
+    TempEmailController.createSession,
 );
 
-router.post('/new',
-    authorizeUser(),
-    TempEmailController.createNewTempEmail,
+router.get('/session',
+    validateSession(),
+    TempEmailController.getSession,
+);
+
+router.post('/session/refresh',
+    validateSession(),
+    TempEmailController.refreshAddress,
 );
 
 router.get('/inbox',
-    authorizeUser(),
+    validateSession(),
     TempEmailValidator.listInbox,
     TempEmailController.listInbox,
 );
@@ -29,4 +33,3 @@ router.post('/inbound',
 );
 
 export const tempEmailRoutes = router.routes();
-
