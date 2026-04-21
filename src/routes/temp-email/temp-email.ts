@@ -26,11 +26,6 @@ router.get('/inbox',
 );
 
 router.post('/inbound',
-    async (ctx, next) => {
-        console.log('[inbound] content-type:', ctx.request.headers['content-type']);
-        console.log('[inbound] body:', JSON.stringify(ctx.request.body));
-        await next();
-    },
     TempEmailValidator.ingestInbound,
     TempEmailController.ingestInbound,
 );
