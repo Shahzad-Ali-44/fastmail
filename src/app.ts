@@ -8,6 +8,10 @@ import { routes } from './routes/index.js';
 const app = new Koa();
 
 app.use(errorMiddleware);
+app.use((ctx, next) => {
+    if (ctx.path.endsWith('/temp-email/inbound')) ctx.disableBodyParser = true;
+    return next();
+});
 app.use(bodyParser());
 app.use(async (ctx, next) => {
     if (ctx.path === '/') {
