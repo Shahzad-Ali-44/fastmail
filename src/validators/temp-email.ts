@@ -12,12 +12,10 @@ export const listInbox: ISMiddleware = async (ctx, next) => {
 
 export const ingestInbound: ISMiddleware = async (ctx, next) => {
     ctx.state.body = validateObject(ctx.request.body, {
-        to: Joi.string().email({ tlds: { allow: false } }),
-
-        from: Joi.string().email({ tlds: { allow: false } }),
-
-        subject: Joi.string(),
-        text: Joi.string(),
+        to: Joi.string().required(),
+        from: Joi.string().optional(),
+        subject: Joi.string().optional(),
+        text: Joi.string().optional(),
         html: Joi.string().optional(),
     });
     await next();

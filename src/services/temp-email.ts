@@ -32,22 +32,27 @@ export const listInbox = async (
     return { address: session.address, messages };
 };
 
+const extractEmail = (value: string): string => {
+    const match = value.match(/<([^>]+)>/);
+    return match ? match[1].trim().toLowerCase() : value.trim().toLowerCase();
+};
+
 export const ingestSendgridInbound = async (payload: {
     to: string;
     from?: string;
     subject?: string;
     text?: string;
     html?: string;
-    [key: string]: any;
 }): Promise<{ stored: boolean }> => {
-    const session = await sessionModel.getByAddress(payload.to);
+    const toAddress = extractEmail(payload.to);
+    const session = await sessionModel.getByAddress(toAddress);
     if (!session) {
         return { stored: false };
     }
 
     await tempEmailMessageModel.createFromInbound({
         sessionId: session.id,
-        fromAddress: payload.from ?? null,
+        fromAddress: payload.from ? extractEmail(payload.from) : null,
         subject: payload.subject ?? null,
         textBody: payload.text ?? null,
         htmlBody: payload.html ?? null,
