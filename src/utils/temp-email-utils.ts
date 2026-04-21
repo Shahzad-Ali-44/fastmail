@@ -9,4 +9,3 @@ export const generateTempEmailAddress = (): string => {
     const random = crypto.randomBytes(10).toString('hex');
     return `${random}@${domain}`;
 };
-
