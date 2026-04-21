@@ -1,5 +1,4 @@
 import Router from '@koa/router';
-import { koaBody } from 'koa-body';
 import { validateSession } from '../../middlewares/session.js';
 import * as TempEmailController from '../../controllers/temp-email.js';
 import * as TempEmailValidator from '../../validators/temp-email.js';
@@ -27,7 +26,11 @@ router.get('/inbox',
 );
 
 router.post('/inbound',
-    koaBody({ multipart: true, urlencoded: true, json: false }),
+    async (ctx, next) => {
+        console.log('[inbound] content-type:', ctx.request.headers['content-type']);
+        console.log('[inbound] body:', JSON.stringify(ctx.request.body));
+        await next();
+    },
     TempEmailValidator.ingestInbound,
     TempEmailController.ingestInbound,
 );

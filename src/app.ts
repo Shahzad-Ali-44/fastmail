@@ -1,6 +1,6 @@
 import 'dotenv/config';
 import Koa from 'koa';
-import bodyParser from 'koa-bodyparser';
+import { koaBody } from 'koa-body';
 import { errorMiddleware } from './middlewares/error.js';
 import { responseMiddleware } from './middlewares/response.js';
 import { routes } from './routes/index.js';
@@ -8,11 +8,7 @@ import { routes } from './routes/index.js';
 const app = new Koa();
 
 app.use(errorMiddleware);
-app.use((ctx, next) => {
-    if (ctx.path.endsWith('/temp-email/inbound')) ctx.disableBodyParser = true;
-    return next();
-});
-app.use(bodyParser());
+app.use(koaBody({ multipart: true, urlencoded: true, json: true }));
 app.use(async (ctx, next) => {
     if (ctx.path === '/') {
         ctx.body = { message: 'Koa JS API server is running' };
