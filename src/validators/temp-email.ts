@@ -11,16 +11,12 @@ export const listInbox: ISMiddleware = async (ctx, next) => {
 };
 
 export const ingestInbound: ISMiddleware = async (ctx, next) => {
-    const { value, error } = Joi.object({
+    ctx.state.body = validateObject(ctx.request.body, {
         to: Joi.string().required(),
         from: Joi.string().required(),
         subject: Joi.string().optional(),
         text: Joi.string().optional(),
         html: Joi.string().optional(),
-    }).options({ stripUnknown: true }).validate(ctx.request.body);
-
-    if (error) throw error;
-    ctx.state.body = value;
+    });
     await next();
 };
-

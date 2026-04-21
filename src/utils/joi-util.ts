@@ -18,7 +18,7 @@ export const validate = (body: any, schema: AnySchema): any =>
         {
             body = JSON.parse(body);
         }
-    const { value, error } = schema.validate(body);
+    const { value, error } = schema.options({ stripUnknown: true }).validate(body);
     if (error) 
     {
         throw error;

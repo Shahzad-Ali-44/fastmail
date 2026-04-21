@@ -9,11 +9,13 @@ export class SessionModel extends BaseModel<ISessionModel> {
 
     public static COL_TOKEN = `${SessionModel.ALIAS}.token`;
     public static COL_ADDRESS = `${SessionModel.ALIAS}.address`;
+    public static COL_USER_ID = `${SessionModel.ALIAS}.userId`;
 
     public static COLUMNS = [
         `${SessionModel.ALIAS}.id`,
         SessionModel.COL_TOKEN,
         SessionModel.COL_ADDRESS,
+        SessionModel.COL_USER_ID,
     ];
 
     private readonly tempEmailMessageModel = new TempEmailMessageModel();
@@ -39,6 +41,18 @@ export class SessionModel extends BaseModel<ISessionModel> {
     }
 
     public createSession(data: { token: string; address: string }): Promise<number> {
+        return this.insert(data);
+    }
+
+    public getUserSession(userId: number): Promise<ISessionModel | undefined> {
+        return this.aTable
+            .columns(SessionModel.COLUMNS)
+            .columns([this.colCreatedAt, this.colUpdatedAt])
+            .where(SessionModel.COL_USER_ID, userId)
+            .first() as Promise<ISessionModel | undefined>;
+    }
+
+    public createUserSession(data: { userId: number; token: string; address: string }): Promise<number> {
         return this.insert(data);
     }
 

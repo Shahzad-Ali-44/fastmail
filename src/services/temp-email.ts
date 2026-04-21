@@ -25,6 +25,27 @@ export const refreshAddress = async (session: ISessionModel): Promise<{ token: s
     return { token: session.token, address: newAddress };
 };
 
+export const getUserTempEmail = async (userId: number): Promise<{ address: string }> => {
+    const session = await sessionModel.getUserSession(userId);
+    return { address: session!.address };
+};
+
+export const createNewForUser = async (userId: number): Promise<{ address: string }> => {
+    const session = await sessionModel.getUserSession(userId);
+    const newAddress = generateTempEmailAddress();
+    await sessionModel.replaceAddress({ sessionId: session!.id, newAddress });
+    return { address: newAddress };
+};
+
+export const listUserInbox = async (
+    userId: number,
+    opts: { limit: number; offset: number },
+): Promise<{ address: string; messages: ITempEmailMessageModel[] }> => {
+    const session = await sessionModel.getUserSession(userId);
+    const messages = await tempEmailMessageModel.listBySessionId(session!.id, opts);
+    return { address: session!.address, messages };
+};
+
 export const listInbox = async (
     session: ISessionModel,
     opts: { limit: number; offset: number },

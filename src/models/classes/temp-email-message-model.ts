@@ -28,8 +28,8 @@ export class TempEmailMessageModel extends BaseModel<ITempEmailMessageModel> {
 
     public listBySessionId(sessionId: number, opts: { limit: number; offset: number }): Promise<ITempEmailMessageModel[]> {
         return this.table
-            .where('sessionId', sessionId)
-            .orderBy('receivedAt', 'desc')
+            .where(TempEmailMessageModel.COL_SESSION_ID, sessionId)
+            .orderBy(TempEmailMessageModel.COL_RECEIVED_AT, 'desc')
             .limit(opts.limit)
             .offset(opts.offset) as Promise<ITempEmailMessageModel[]>;
     }
