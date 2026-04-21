@@ -11,7 +11,6 @@ export class TempEmailMessageModel extends BaseModel<ITempEmailMessageModel> {
     public static COL_SUBJECT = `${TempEmailMessageModel.ALIAS}.subject`;
     public static COL_TEXT_BODY = `${TempEmailMessageModel.ALIAS}.textBody`;
     public static COL_HTML_BODY = `${TempEmailMessageModel.ALIAS}.htmlBody`;
-    public static COL_RAW = `${TempEmailMessageModel.ALIAS}.raw`;
     public static COL_RECEIVED_AT = `${TempEmailMessageModel.ALIAS}.receivedAt`;
 
     public static COLUMNS = [
@@ -20,7 +19,6 @@ export class TempEmailMessageModel extends BaseModel<ITempEmailMessageModel> {
         TempEmailMessageModel.COL_SUBJECT,
         TempEmailMessageModel.COL_TEXT_BODY,
         TempEmailMessageModel.COL_HTML_BODY,
-        TempEmailMessageModel.COL_RAW,
         TempEmailMessageModel.COL_RECEIVED_AT,
     ];
 
@@ -42,7 +40,6 @@ export class TempEmailMessageModel extends BaseModel<ITempEmailMessageModel> {
         subject: string | null;
         textBody: string | null;
         htmlBody: string | null;
-        raw: Record<string, any>;
         receivedAt: Date;
     }): Promise<number> {
         return this.insert(data);

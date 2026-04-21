@@ -51,7 +51,6 @@ export const ingestSendgridInbound = async (payload: {
         subject: payload.subject ?? null,
         textBody: payload.text ?? null,
         htmlBody: payload.html ?? null,
-        raw: payload,
         receivedAt: new Date(),
     });
 

@@ -18,7 +18,6 @@ export const up = async (knex: Knex): Promise<void> => {
         table.string('subject', 500).nullable();
         table.text('textBody').nullable();
         table.text('htmlBody').nullable();
-        table.jsonb('raw').nullable();
         table.timestamp('receivedAt').notNullable().defaultTo(knex.fn.now());
         table.timestamp('createdAt').notNullable().defaultTo(knex.fn.now());
         table.timestamp('updatedAt').notNullable().defaultTo(knex.fn.now());

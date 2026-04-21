@@ -6,7 +6,6 @@ export interface ITempEmailMessageModel extends IBaseModel {
     subject: string | null;
     textBody: string | null;
     htmlBody: string | null;
-    raw: any | null;
     receivedAt: Date;
 }
 
