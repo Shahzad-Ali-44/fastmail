@@ -2,6 +2,7 @@ import { randomUUID } from 'crypto';
 import { SessionModel } from '../models/classes/session-model.js';
 import { TempEmailMessageModel } from '../models/classes/temp-email-message-model.js';
 import type { ISessionModel } from '../models/interfaces/session-model.js';
+import type { ITempEmailMessageModel } from '../models/interfaces/temp-email-message-model.js';
 import { generateTempEmailAddress } from '../utils/temp-email-utils.js';
 
 const sessionModel = new SessionModel();
@@ -27,7 +28,7 @@ export const refreshAddress = async (session: ISessionModel): Promise<{ token: s
 export const listInbox = async (
     session: ISessionModel,
     opts: { limit: number; offset: number },
-): Promise<{ address: string; messages: any[] }> => {
+): Promise<{ address: string; messages: ITempEmailMessageModel[] }> => {
     const messages = await tempEmailMessageModel.listBySessionId(session.id, opts);
     return { address: session.address, messages };
 };
@@ -39,7 +40,7 @@ const extractEmail = (value: string): string => {
 
 export const ingestSendgridInbound = async (payload: {
     to: string;
-    from?: string;
+    from: string;
     subject?: string;
     text?: string;
     html?: string;
@@ -52,7 +53,7 @@ export const ingestSendgridInbound = async (payload: {
 
     await tempEmailMessageModel.createFromInbound({
         sessionId: session.id,
-        fromAddress: payload.from ? extractEmail(payload.from) : null,
+        fromAddress: extractEmail(payload.from),
         subject: payload.subject ?? null,
         textBody: payload.text ?? null,
         htmlBody: payload.html ?? null,

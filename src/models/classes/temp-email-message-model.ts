@@ -36,7 +36,7 @@ export class TempEmailMessageModel extends BaseModel<ITempEmailMessageModel> {
 
     public createFromInbound(data: {
         sessionId: number;
-        fromAddress: string | null;
+        fromAddress: string;
         subject: string | null;
         textBody: string | null;
         htmlBody: string | null;
