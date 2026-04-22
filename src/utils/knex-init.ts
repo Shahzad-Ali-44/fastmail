@@ -7,4 +7,8 @@ export const db: Knex = knex({
         connectionString: process.env.DATABASE_URL,
         timezone: 'UTC',
     },
+    migrations: {
+        directory: './migrations',
+        extension: 'ts',
+    },
 });

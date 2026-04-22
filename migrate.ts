@@ -1,14 +1,4 @@
-import 'dotenv/config';
-import knex from 'knex';
-
-const db = knex({
-    client: 'pg',
-    connection: process.env.DATABASE_URL,
-    migrations: {
-        directory: './migrations',
-        extension: 'ts',
-    },
-});
+import { db } from './src/utils/knex-init.js';
 
 const command = process.argv[2];
 

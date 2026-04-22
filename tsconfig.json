@@ -10,6 +10,6 @@
     "skipLibCheck": true,
     "resolveJsonModule": true
   },
-  "include": ["src/**/*", "api/**/*", "migrations/**/*", "knexfile.ts", "migrate.ts"],
+  "include": ["src/**/*", "api/**/*", "migrations/**/*", "migrate.ts"],
   "exclude": ["node_modules", "dist"]
 }
