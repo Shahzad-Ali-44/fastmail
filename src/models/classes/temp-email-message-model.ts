@@ -27,7 +27,7 @@ export class TempEmailMessageModel extends BaseModel<ITempEmailMessageModel> {
     }
 
     public listBySessionId(sessionId: number, opts: { limit: number; offset: number }): Promise<ITempEmailMessageModel[]> {
-        return this.table
+        return this.aTable
             .where(TempEmailMessageModel.COL_SESSION_ID, sessionId)
             .orderBy(TempEmailMessageModel.COL_RECEIVED_AT, 'desc')
             .limit(opts.limit)
